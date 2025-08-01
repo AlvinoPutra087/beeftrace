@@ -4,9 +4,21 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
+type ProductType = {
+  _id: string;
+  gtin: string;
+  serial: string;
+  name: string;
+  herkunft: string;
+  produktion: string;
+  verfallsdatum: string;
+  rueckruf: boolean;
+  bild: string;
+};
+
 export default async function AdminDashboard() {
   await connectToDB();
-  const products = await Product.find().lean();
+  const products: ProductType[] = await Product.find().lean();
 
   return (
     <main style={{ padding: "2rem" }}>
@@ -22,7 +34,7 @@ export default async function AdminDashboard() {
           </tr>
         </thead>
         <tbody>
-          {products.map((product: any) => (
+          {products.map((product) => (
             <tr key={product._id}>
               <td>{product.name}</td>
               <td>{product.gtin}</td>
