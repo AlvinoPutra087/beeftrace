@@ -1,11 +1,17 @@
 import { connectToDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { gtin: string; serial: string };
-}) {
+export const dynamic = "force-dynamic";
+
+// ✅ Saubere Typdefinition für Next.js
+type PageProps = {
+  params: {
+    gtin: string;
+    serial: string;
+  };
+};
+
+export default async function ProductPage({ params }: PageProps) {
   await connectToDB();
 
   const product = await Product.findOne({
@@ -24,7 +30,10 @@ export default async function ProductPage({
       <p><strong>Herkunft:</strong> {product.herkunft}</p>
       <p><strong>Produktionsdatum:</strong> {product.produktion}</p>
       <p><strong>Verfallsdatum:</strong> {product.verfallsdatum}</p>
-      <p><strong>Status:</strong> {product.rueckruf ? "❗ Rückruf aktiv" : "✅ In Ordnung"}</p>
+      <p>
+        <strong>Status:</strong>{" "}
+        {product.rueckruf ? "❗ Rückruf aktiv" : "✅ In Ordnung"}
+      </p>
     </main>
   );
 }
