@@ -1,14 +1,11 @@
 import { connectToDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
 
-type PageProps = {
-  params: {
-    gtin: string;
-    serial: string;
-  };
-};
-
-export default async function ProductPage({ params }: PageProps) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { gtin: string; serial: string };
+}) {
   await connectToDB();
 
   const product = await Product.findOne({
