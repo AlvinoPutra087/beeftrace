@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 
+import { notFound } from "next/navigation";
 import { connectToDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
-import type { ProductType } from "@/models/Product"; // ✅ Das ist neu!
 
 export default async function ProductPage({ params }: { params: { gtin: string; serial: string } }) {
   await connectToDB();
@@ -10,9 +10,9 @@ export default async function ProductPage({ params }: { params: { gtin: string; 
   const product = await Product.findOne({
     gtin: params.gtin,
     serial: params.serial,
-  }).lean<ProductType>(); // ✅ So weiß TypeScript, wie "product" aussieht
+  }).lean();
 
-  if (!product) return <p>❌ Produkt nicht gefunden</p>;
+  if (!product) return notFound();
 
   return (
     <main style={{ padding: "2rem" }}>
