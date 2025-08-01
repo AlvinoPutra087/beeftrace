@@ -1,10 +1,14 @@
-export const dynamic = "force-dynamic";
-
-import { notFound } from "next/navigation";
 import { connectToDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
 
-export default async function ProductPage({ params }: { params: { gtin: string; serial: string } }) {
+type PageProps = {
+  params: {
+    gtin: string;
+    serial: string;
+  };
+};
+
+export default async function ProductPage({ params }: PageProps) {
   await connectToDB();
 
   const product = await Product.findOne({
@@ -12,7 +16,7 @@ export default async function ProductPage({ params }: { params: { gtin: string; 
     serial: params.serial,
   }).lean();
 
-  if (!product) return notFound();
+  if (!product) return <p>❌ Produkt nicht gefunden</p>;
 
   return (
     <main style={{ padding: "2rem" }}>
