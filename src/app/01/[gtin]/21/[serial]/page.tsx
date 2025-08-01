@@ -3,7 +3,14 @@ import Product from "@/models/Product";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProductPage({ params }: any) {
+interface PageProps {
+  params: {
+    gtin: string;
+    serial: string;
+  };
+}
+
+export default async function ProductPage({ params }: Readonly<PageProps>) {
   await connectToDB();
 
   const product = await Product.findOne({
