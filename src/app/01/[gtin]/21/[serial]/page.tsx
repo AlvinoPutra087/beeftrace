@@ -1,14 +1,22 @@
 import { connectToDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
+import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
+// ✅ Keine eigenen Props-Typen schreiben – Next.js regelt das
 type Props = {
   params: {
     gtin: string;
     serial: string;
   };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `Produkt ${params.gtin} - ${params.serial}`,
+  };
+}
 
 export default async function Page({ params }: Props) {
   await connectToDB();
