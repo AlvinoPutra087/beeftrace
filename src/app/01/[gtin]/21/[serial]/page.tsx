@@ -3,14 +3,7 @@ import Product from "@/models/Product";
 
 export const dynamic = "force-dynamic";
 
-// 🔧 KEIN externes Type alias für `PageProps`
-// ⛔️ Verhindert TypeScript-Fehler bei Vercel Build
-
-export default async function ProductPage({
-  params,
-}: {
-  params: { gtin: string; serial: string };
-}) {
+export default async function ProductPage({ params }: any) {
   await connectToDB();
 
   const product = await Product.findOne({
@@ -29,10 +22,7 @@ export default async function ProductPage({
       <p><strong>Herkunft:</strong> {product.herkunft}</p>
       <p><strong>Produktionsdatum:</strong> {product.produktion}</p>
       <p><strong>Verfallsdatum:</strong> {product.verfallsdatum}</p>
-      <p>
-        <strong>Status:</strong>{" "}
-        {product.rueckruf ? "❗ Rückruf aktiv" : "✅ In Ordnung"}
-      </p>
+      <p><strong>Status:</strong> {product.rueckruf ? "❗ Rückruf aktiv" : "✅ In Ordnung"}</p>
     </main>
   );
 }
