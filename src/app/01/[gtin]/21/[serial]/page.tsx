@@ -1,16 +1,14 @@
 import { connectToDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
 
-export const dynamic = "force-dynamic";
-
-interface PageProps {
+interface Props {
   params: {
     gtin: string;
     serial: string;
   };
 }
 
-export default async function ProductPage({ params }: Readonly<PageProps>) {
+export default async function Page({ params }: Props) {
   await connectToDB();
 
   const product = await Product.findOne({
