@@ -3,15 +3,14 @@ import Product from "@/models/Product";
 
 export const dynamic = "force-dynamic";
 
-// ✅ Saubere Typdefinition für Next.js
-type PageProps = {
-  params: {
-    gtin: string;
-    serial: string;
-  };
-};
+// 🔧 KEIN externes Type alias für `PageProps`
+// ⛔️ Verhindert TypeScript-Fehler bei Vercel Build
 
-export default async function ProductPage({ params }: PageProps) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { gtin: string; serial: string };
+}) {
   await connectToDB();
 
   const product = await Product.findOne({
