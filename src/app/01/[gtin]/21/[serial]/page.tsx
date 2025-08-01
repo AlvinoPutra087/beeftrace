@@ -1,12 +1,14 @@
 import { connectToDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
 
-interface Props {
+export const dynamic = "force-dynamic";
+
+type Props = {
   params: {
     gtin: string;
     serial: string;
   };
-}
+};
 
 export default async function Page({ params }: Props) {
   await connectToDB();
@@ -27,7 +29,10 @@ export default async function Page({ params }: Props) {
       <p><strong>Herkunft:</strong> {product.herkunft}</p>
       <p><strong>Produktionsdatum:</strong> {product.produktion}</p>
       <p><strong>Verfallsdatum:</strong> {product.verfallsdatum}</p>
-      <p><strong>Status:</strong> {product.rueckruf ? "❗ Rückruf aktiv" : "✅ In Ordnung"}</p>
+      <p>
+        <strong>Status:</strong>{" "}
+        {product.rueckruf ? "❗ Rückruf aktiv" : "✅ In Ordnung"}
+      </p>
     </main>
   );
 }
